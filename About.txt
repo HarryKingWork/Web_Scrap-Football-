@@ -1,0 +1,18 @@
+About this project
+Python Developer for Web Scraping and Data Extraction to duplicate mathematical formulas already existing and create clusters of functions already pre-named in the code with a CSV file in Python.
+
+An expert in soccer statistical analysis with Python.
+Project overview
+
+I have a scraper that uses selenium to extract data from the site goaloo12. What I want for this job is to create a script that can change the background color of different cells on the basis of values present in other cells in the same row. The sample and task file is attached.
+
+Category IT & Programming
+Subcategory Web development
+Is this a project or a position? Project
+I currently have I have the design
+Required availability Part time
+Roles needed Developer
+
+Project duration 3 to 6 months
+
+Attached files:
