@@ -40,10 +40,6 @@ import shutil, getpass, requests, zipfile, os, re#, wget
 import re
 import copy
 
-
-
-
-
 ########################################################################################################
 STAT_LOGGING_INTERVAL = 60  # Seconds
 THREAD_SHUTDOWN_TIMEOUT = 3  # Seconds
@@ -191,6 +187,7 @@ class SimulationThread(threading.Thread):
             gameids = []
             lock.release()
             website = "https:/www.goaloo18.com" + emails
+            m_url = 'https://www.goaloo18.com/football'
             print(website)
             driver.get(website)
             driver.add_cookie({"name": "Time_Zone", "value": "10"})
@@ -219,6 +216,7 @@ class SimulationThread(threading.Thread):
             print(gameids)
             if proxy == 0:
                 proxy = len(gameids)
+            #proxy = 3
             print(f'trying to calculate data for {proxy} games')
             working_count = 0
             count = 0
@@ -245,8 +243,8 @@ class SimulationThread(threading.Thread):
                             sys.exit()
                         count+=1
                         try:
-                            print(f'https://www.goaloo18.com/football/match/live-{gameid}')
-                            driver.get(f'https://www.goaloo18.com/football/match/live-{gameid}')
+                            print(f'{m_url}/match/live-{gameid}')
+                            driver.get(f'{m_url}/match/live-{gameid}')
                             league = driver.find_element(By.XPATH, '//span[@class="sclassLink"]').text
                         except NoSuchElementException:
                             try:    
@@ -257,12 +255,12 @@ class SimulationThread(threading.Thread):
                                 league = driver.find_element(By.XPATH, "//*[@id='fbheader']/div[1]/span[1]/span").text
                         except:
                             continue
+
                         home_team = driver.find_elements(By.XPATH, '//div[@class="sclassName"]')[0].text
                         guest_team = driver.find_elements(By.XPATH, '//div[@class="sclassName"]')[1].text
                         date, match_time, week_day = driver.find_element(By.XPATH, '//span[@class="time"]').text.split(' ')
                         goals = []
                         score = []
-                        
                         
                         # goal_A = None
                         # goal_B = None
@@ -286,7 +284,7 @@ class SimulationThread(threading.Thread):
                         # date = date.split( )
                         # match_time = date[3]
                         # date = f'{date[0]} {date[1]}'
-                        driver.get(f'https://www.goaloo18.com/football/match/over-under-odds-{gameid}')
+                        driver.get(f'{m_url}/match/over-under-odds-{gameid}')
                         companys = driver.find_elements(By.CSS_SELECTOR,"tr.tb-bgcolor")
                         companys += driver.find_elements(By.CSS_SELECTOR,"tr.tb-bgcolor1")
                         time.sleep(1)
@@ -307,8 +305,8 @@ class SimulationThread(threading.Thread):
                         #     odds_goals = driver.find_element(By.XPATH, '//*[@id="CompanyOddsDiv"]/table/tbody/tr[3]/td[3]/span').text
                         # else:
                         #     odds_goals = "NA"
-                        
-                        driver.get(f'https://www.goaloo18.com/oddshistory/5_8_{gameid}')
+                        driver.get(f'{m_url}/oddshistory/5_8_{gameid}')
+
                         try:
                             bet365_early_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[4]").text.split(' ')
                             bet365_live_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[5]").text.split(' ')
@@ -329,8 +327,9 @@ class SimulationThread(threading.Thread):
                             continue
                             
                         else:
-                            print('FINEEEEEEEEE')
+                            print('FINE_OK')
                             working_count+=1
+
                         # print(f'league is {league}, home: {home_team}, guest: {guest_team}, 1 = {bet365_data[3]} x = {bet365_data[4]} 2 = {bet365_data[5]}')
                         date_deep_copied = str(date)
                         match_time_deep_copied = match_time
@@ -339,9 +338,10 @@ class SimulationThread(threading.Thread):
                         goal_A_deep_copied = str(f"{goal_A} x {goal_B}")
                         first_odds_deep_copied = str(first_odds)
                         odds_goals_deep_copied = str(odds_goals)
-                        bet365_early_data_deep_copied = str(f"{float(bet365_early_data[1])} / {float(bet365_early_data[2])} / {float(bet365_early_data[3])}")
+                        bet365_early_data_deep_copied = str(f"{float(bet365_early_data[1])} / {float(bet365_early_data[2].split('/')[0])} / {float(bet365_early_data[3])}")
+                        #bet365_early_data_deep_copied = str(f"{float(bet365_early_data[1].split('/')[0])} / {float(bet365_early_data[1].split('/')[1])} / {float(bet365_early_data[2])}")
                         bet365_live_data_deep_copied = str(f"{float(bet365_live_data[1])} / {float(bet365_live_data[2])} / {float(bet365_live_data[3])}")
-               
+                        #bet365_live_data_deep_copied = str(f"{float(bet365_live_data[1].split('/')[0])} / {float(bet365_live_data[1].split('/')[1])} / {float(bet365_live_data[2])}")
                         # Split the input string by '/'
                         numbers = bet365_early_data_deep_copied.split('/')
                         
@@ -354,7 +354,7 @@ class SimulationThread(threading.Thread):
                         rounded_result = round(result_, 5)
 
                         try:   
-                            response = requests.get(f'https://www.goaloo18.com/football/match/h2h-{gameid}')
+                            response = requests.get(f'{m_url}/match/h2h-{gameid}')
                             from time import sleep
                             sleep(5)
                         except:
@@ -368,16 +368,16 @@ class SimulationThread(threading.Thread):
                         y  = porletP6_element.find(id="table_v2")
                         rows_in_table_v2 = x.find_all("tr")
                         rows_in_table_v1 = y.find_all("tr")
-                        print("ùùùùùùùùùùùùùùùùùùùùùùùùùù",len(rows_in_table_v2),len(rows_in_table_v1))
+                        #print("ùùùùùùùùùùùùùùùùùùùùùùùùùù",len(rows_in_table_v2),len(rows_in_table_v1))
                         good_data = True
                         if len(rows_in_table_v1) !=25 or len(rows_in_table_v2) != 25:
                             good_data = False
                             bad_games.append(gameid)
-                        print('bad gamessssss',bad_games)
+                        #print('bad gamessssss',bad_games)
 
                         
                         print(date_deep_copied,match_time_deep_copied,league_deep_copied,home_team_deep_copied,goal_A_deep_copied,first_odds_deep_copied,odds_goals_deep_copied,bet365_early_data_deep_copied,bet365_live_data_deep_copied)
-                        print(type(home_team_deep_copied),home_team_deep_copied)
+                        #print(type(home_team_deep_copied),home_team_deep_copied)
                         home = home_team_deep_copied.split("VS")[0]
                         away = home_team_deep_copied.split("VS")[1]
                         GH = goal_A_deep_copied.split("x")[0]
@@ -408,7 +408,7 @@ class SimulationThread(threading.Thread):
                             data['Prob.Away'] = str(1/value3)
 
                             # data['Company'] = "Bet365"
-                            # data['Link'] = f'https://www.goaloo18.com/football/match/live-{gameid}'
+                            # data['Link'] = f'{m_url}/match/live-{gameid}'
                             for team_score_index in range(1, max_goals):
                                 try:
                                     gol = copy.deepcopy(goals[team_score_index-1])
@@ -419,7 +419,7 @@ class SimulationThread(threading.Thread):
                                 print(f'calculated {count} out of {len(gameids)}, {working_count} had Bet365 data {count-working_count} Didn\'t have required data and where skipped')
                             
                             act_data.append(data.copy())
-                            driver.get(f'https://www.goaloo18.com/football/match/h2h-{gameid}#porletP6')
+                            driver.get(f'{m_url}/match/h2h-{gameid}#porletP6')
                             
                             porletP5 = driver.find_element(By.ID,"porletP6")
                             # fscore_1 red2
@@ -450,9 +450,9 @@ class SimulationThread(threading.Thread):
                                 adx += int(elmt[0:1])
                             
                             print('adx',adx/5)
-                            print('HOME GOALS//////ssssssssssssssssssssssss/',home_goals)
+                            #print('HOME GOALS//////ssssssssssssssssssssssss/',home_goals)
                             button.click()
-                            print('HOME GOALS////sddddddddddddddddddd///',home_goals)
+                            #print('HOME GOALS////sddddddddddddddddddd///',home_goals)
                             time.sleep(1)
                             AGH = 0
                             for x in range(1,6):
@@ -557,9 +557,9 @@ class SimulationThread(threading.Thread):
                                 adx += int(elmt[2:3])
                             
                             print('adx',adx/5)
-                            print('Away GOALS//////ssssssssssssssssssssssss/',home_goals)
+                            print('Away GOALS///',home_goals)
                             button.click()
-                            print('Away GOALS////sddddddddddddddddddd///',home_goals)
+                            print('Away GOALS///',home_goals)
                             time.sleep(1)
                             AGA = 0
                             for x in range(1,6):
@@ -580,7 +580,7 @@ class SimulationThread(threading.Thread):
                                         table_v2_['Score'] =  td.find_elements(By.TAG_NAME,"td")[3].text
                                         table_v2_['W/L'] = td.find_elements(By.TAG_NAME,"td")[9].text
                                     except:
-                                         print('||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||')
+                                         #print('||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||')
                                          table_v2_['Team'] = 'No'
                                          table_v2_['Score'] ='1-1(0-0)'
                                          table_v2_['W/L'] = 'D'
@@ -652,6 +652,7 @@ class SimulationThread(threading.Thread):
                            # print(table_v2_)
                            # print("------------------")
                     except Exception as e:
+                        #print(e)
                         pass
             except Exception as e:
                 print(e)
@@ -2475,7 +2476,7 @@ class SimulationThread(threading.Thread):
                     Avgs =[]
                     Tavgs = []
                     for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=8, max_col=9):
-                        print('rowwwwwwww',row)
+                        #print('rowwwwwwww',row)
                         for cell in row:
                             try:
                                 if cell.value is not None and cell.value !='' and cell.value != 'AVGA'and cell.value != 'AVGH':
@@ -2491,7 +2492,7 @@ class SimulationThread(threading.Thread):
                     
                     
                     Avgs = [x for x in Avgs if not isinstance(x, float) or not math.isnan(x)]
-                    print('bbbbbbbbbbbbbbbbbbbbbbbbbbbb',len(Avgs),Avgs)
+                    #print('bbbbbbbbbbbbbbbbbbbbbbbbbbbb',len(Avgs),Avgs)
                     if len(Avgs) % 2 != 0:
                         Avgs.append(0)
                     for team_score_index in range(0, len(Avgs), 2):
@@ -2499,7 +2500,7 @@ class SimulationThread(threading.Thread):
                         pair = [Avgs[team_score_index], Avgs[team_score_index + 1]]
                         Tavgs.append(pair)
                     
-                    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",Tavgs)
+                    #print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",Tavgs)
                     Avgs = []
                     
                     k = 0
@@ -2539,7 +2540,7 @@ class SimulationThread(threading.Thread):
                         for cell in row:    
                             try:
                                 if cell.value is not None and cell.value !='' and isinstance(cell.value, str) and  cell.value !="SUM" :
-                                    print("LELELELELELELE",cell.value)
+                                    #print("LELELELELELELE",cell.value)
                                     Teams.append(cell.value)
                                     
                                     if float(Tavgs[ind][0]) + float(Tavgs[ind][1]) >= 7.4 and float(Tavgs[ind][0]) + float(Tavgs[ind][1]) >= 12.0:
@@ -2694,13 +2695,13 @@ class SimulationThread(threading.Thread):
                                         if verified_team_1 and verified_team_2:    
                                             # Red color in hexadecimal notation
                                             cell.border = thick_red_border
-                                            print('uuuuuuuuuuuuuuuuuuuuuuu')
+                                            #print('uuuuuuuuuuuuuuuuuuuuuuu')
                                             break       # SWITCH TO BORDER
                             except:
                                 print('error14') 
                      
                     
-                    print('teammmmmmms',Teams)
+                    #print('teammmmmmms',Teams)
                     def filtering_function_draw(results_team:list[list[str]])->list[list[bool]]:
                         # intializing 2D list
                         boolean_list=[[False]*3 for _ in range(len(results_team))]
@@ -2819,18 +2820,18 @@ class SimulationThread(threading.Thread):
                                     
                                     print('bn: ',bn,z,total_aux_list[z])
                                     if len(total_aux_list[z]) > 2 and cell.value[2:4] == total_aux_list[z][0] :
-                                        print('la777a77a77a7a7a7a7a7a7a',bn)
+                                        #print('la777a77a77a7a7a7a7a7a7a',bn)
                                         if total_aux_list[z][1] == bn :
                                             font = Font(color='E3C901')  # Red color in hexadecimal notation
                                             cell.font = font
                                             cell.font = Font(color = cell.font.color.rgb,name='Arial Nova', size=11, bold=True, italic=True)
                                             
-                                            print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+                                            #print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
                                         elif total_aux_list[z][2] == bn:
                                             font = Font(color='E3C901')  # Red color in hexadecimal notation
                                             cell.font = font
                                             cell.font = Font(color = cell.font.color.rgb,name='Arial Nova', size=11, bold=True, italic=True)
-                                            print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+                                            #print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
                                             
                                         
                                     
@@ -2855,7 +2856,7 @@ class SimulationThread(threading.Thread):
                     z = 0
                     zz = 0
                     bn = 0
-                    print('############# SCR TTC preparation ##########"')
+                    #print('############# SCR TTC preparation ##########"')
                     for i in range (len(total_aux_list)):
                         if len(total_aux_list[i])>=3:
                             TTC.append(True)
