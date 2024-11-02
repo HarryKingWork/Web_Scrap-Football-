@@ -294,8 +294,8 @@ class SimulationThread(threading.Thread):
                             if "Interwetten" == com.find_element(By.CSS_SELECTOR,"td.rb").text:
                                 first_odds = com.find_elements(By.TAG_NAME,"td")[1].text
                                 odds_goals = com.find_elements(By.TAG_NAME,"td")[2].text
-                                print("Over : "+ com.find_elements(By.TAG_NAME,"td")[1].text)
-                                print("Goals : "+ com.find_elements(By.TAG_NAME,"td")[2].text)
+                                print("Over : "+ first_odds)
+                                print("Goals : "+ odds_goals)
 
                         # first_odds = driver.find_element(By.XPATH, '//*[@id="CompanyOddsDiv"]/table/tbody/tr[3]/td[2]/span').text
                         # if first_odds == '-':
@@ -305,30 +305,41 @@ class SimulationThread(threading.Thread):
                         #     odds_goals = driver.find_element(By.XPATH, '//*[@id="CompanyOddsDiv"]/table/tbody/tr[3]/td[3]/span').text
                         # else:
                         #     odds_goals = "NA"
-                        driver.get(f'{m_url}/oddshistory/5_8_{gameid}')
+                        #driver.get(f'{m_url}/oddshistory/5_8_{gameid}')
+						
+                        driver.get(f'{m_url}/{league}/live-{gameid}')
+                        time.sleep(3)
+                        early_live_str = driver.find_element(By.XPATH, '//*[@id="oddsDiv_8"]/table/tbody/tr[4]').text
+                        new_values = early_live_str.split()
+                        bet365_early_data_deep_copied = " / ".join(new_values[1:4])
+                        bet365_live_data_deep_copied = " / ".join(new_values[4:7])
+                        time.sleep(2)
 
-                        try:
-                            bet365_early_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[4]").text.split(' ')
-                            bet365_live_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[5]").text.split(' ')
-                            print('Trying')
-                        except NoSuchElementException:
-                            print('Failed 1')
-                            try:
-                                driver.refresh()
-                                time.sleep(5)
-                                bet365_early_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[4]").text.split(' ')
-                                bet365_live_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[5]").text.split(' ')
-                                print('Trying 1')
-                            except:
-                                print('Failed 2')
-                                continue
-                        if len(bet365_early_data) < 16:
-                            print('Failed 3')
-                            continue
+                        print(bet365_early_data_deep_copied)
+                        print(bet365_live_data_deep_copied)
+
+                        #try:
+                        #    bet365_early_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[4]").text.split(' ')
+                        #    bet365_live_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[5]").text.split(' ')
+                        #    print('Trying')
+                        #except NoSuchElementException:
+                        #    print('Failed 1')
+                        #    try:
+                        #        driver.refresh()
+                        #        time.sleep(5)
+                        #        bet365_early_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[4]").text.split(' ')
+                        #        bet365_live_data = driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[5]").text.split(' ')
+                        #        print('Trying 1')
+                        #    except:
+                        #        print('Failed 2')
+                        #        continue
+                        #if len(bet365_early_data) < 16:
+                        #    print('Failed 3')
+                        #    continue
                             
-                        else:
-                            print('FINE_OK')
-                            working_count+=1
+                        #else:
+                        #    print('FINE_OK')
+                        working_count+=1
 
                         # print(f'league is {league}, home: {home_team}, guest: {guest_team}, 1 = {bet365_data[3]} x = {bet365_data[4]} 2 = {bet365_data[5]}')
                         date_deep_copied = str(date)
@@ -338,9 +349,9 @@ class SimulationThread(threading.Thread):
                         goal_A_deep_copied = str(f"{goal_A} x {goal_B}")
                         first_odds_deep_copied = str(first_odds)
                         odds_goals_deep_copied = str(odds_goals)
-                        bet365_early_data_deep_copied = str(f"{float(bet365_early_data[1])} / {float(bet365_early_data[2].split('/')[0])} / {float(bet365_early_data[3])}")
+                        #bet365_early_data_deep_copied = str(f"{float(bet365_early_data[1])} / {float(bet365_early_data[2].split('/')[0])} / {float(bet365_early_data[3])}")
                         #bet365_early_data_deep_copied = str(f"{float(bet365_early_data[1].split('/')[0])} / {float(bet365_early_data[1].split('/')[1])} / {float(bet365_early_data[2])}")
-                        bet365_live_data_deep_copied = str(f"{float(bet365_live_data[1])} / {float(bet365_live_data[2])} / {float(bet365_live_data[3])}")
+                        #bet365_live_data_deep_copied = str(f"{float(bet365_live_data[1])} / {float(bet365_live_data[2])} / {float(bet365_live_data[3])}")
                         #bet365_live_data_deep_copied = str(f"{float(bet365_live_data[1].split('/')[0])} / {float(bet365_live_data[1].split('/')[1])} / {float(bet365_live_data[2])}")
                         # Split the input string by '/'
                         numbers = bet365_early_data_deep_copied.split('/')
@@ -461,7 +472,7 @@ class SimulationThread(threading.Thread):
                                         td = table_v1.find_element(By.ID,"tr1_"+str(x))
                                         if table_v1.find_element(By.TAG_NAME,"a").text  == td.find_elements(By.TAG_NAME,"td")[2].text:
                                             table_v1_['Team'] ='(H) ' + table_v1.find_element(By.TAG_NAME,"a").text
-                                            print(td.find_elements(By.TAG_NAME,"td")[3].text)
+                                            #print(td.find_elements(By.TAG_NAME,"td")[3].text)
                                             AGH += int(td.find_elements(By.TAG_NAME,"td")[3].text[0])
                                         else:
                                             table_v1_['Team'] = table_v1.find_element(By.TAG_NAME,"a").text + ' (A)'
@@ -550,7 +561,7 @@ class SimulationThread(threading.Thread):
                                     z=z+1
                                 else:
                                     home_goals.append(td.find_elements(By.TAG_NAME,"td")[3].text)
-                                    print('valeur: ',td.find_elements(By.TAG_NAME,"td")[3].text,y )
+                                    #print('valeur: ',td.find_elements(By.TAG_NAME,"td")[3].text,y )
                             home_goals = home_goals[0:5]     
                             adx = 0
                             for elmt in home_goals:
@@ -570,7 +581,7 @@ class SimulationThread(threading.Thread):
                                         # print("W/L : "+td.find_elements(By.TAG_NAME,"td")[9].text)
                                         if table_v2.find_element(By.TAG_NAME,"a").text  == td.find_elements(By.TAG_NAME,"td")[2].text:
                                             table_v2_['Team'] ='(H) ' + table_v2.find_element(By.TAG_NAME,"a").text
-                                            print(td.find_elements(By.TAG_NAME,"td")[3].text)
+                                            #print(td.find_elements(By.TAG_NAME,"td")[3].text)
                                             AGA += int(td.find_elements(By.TAG_NAME,"td")[3].text[0])
                                             
                                         else:
@@ -652,7 +663,7 @@ class SimulationThread(threading.Thread):
                            # print(table_v2_)
                            # print("------------------")
                     except Exception as e:
-                        #print(e)
+                        print(e)
                         pass
             except Exception as e:
                 print(e)
