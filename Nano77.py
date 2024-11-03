@@ -291,7 +291,7 @@ class SimulationThread(threading.Thread):
                         time.sleep(1)
                         for com in companys:
                             print("=======")
-                            print(com.find_element(By.CSS_SELECTOR,"td.rb").text)
+                            #print(com.find_element(By.CSS_SELECTOR,"td.rb").text)
                             if "Interwetten" == com.find_element(By.CSS_SELECTOR,"td.rb").text:
                                 first_odds = com.find_elements(By.TAG_NAME,"td")[1].text
                                 odds_goals = com.find_elements(By.TAG_NAME,"td")[2].text
@@ -320,8 +320,8 @@ class SimulationThread(threading.Thread):
                             bet365_live_data_deep_copied = " / ".join(new_values[4:7])
                             time.sleep(1)
 
-                            print(bet365_early_data_deep_copied)
-                            print(bet365_live_data_deep_copied)
+                            #print(bet365_early_data_deep_copied)
+                            #print(bet365_live_data_deep_copied)
                         except:
                             print('Trying')
                             try:
