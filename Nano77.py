@@ -1340,30 +1340,36 @@ class SimulationThread(threading.Thread):
                     print('D3RD Function Done')
                     ################################################################ D3rd (Modified) ##########################################################################
                     i = -1
-                    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=6, max_col=6):
-                        for cell in row:
-                            if cell.value is not None and  cell.value != 'GH' and cell.value!="" and isinstance(cell.value,str):
-                                i+= 1
-                                r = float(SDH[i]) + float(SDA[i])
-                                if resH[i] == True and float(r) <0.54:
-                                    font = Font(color='0000FF',name='Arial Narrow', size=11, bold=True, italic=True)
-                                    cell.font = font
-                                elif resH[i] == True and resA[i] == True and float(r) <0.54:
-                                    font = Font(color='FF0000',name='Arial Narrow', size=11, bold=True, italic=True)
-                                    cell.font = font
-                                r = 0
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=6, max_col=6):
+                            for cell in row:
+                                if cell.value is not None and  cell.value != 'GH' and cell.value!="" and isinstance(cell.value,str):
+                                    i+= 1
+                                    r = float(SDH[i]) + float(SDA[i])
+                                    if resH[i] == True and float(r) <0.54:
+                                        font = Font(color='0000FF',name='Arial Narrow', size=11, bold=True, italic=True)
+                                        cell.font = font
+                                    elif resH[i] == True and resA[i] == True and float(r) <0.54:
+                                        font = Font(color='FF0000',name='Arial Narrow', size=11, bold=True, italic=True)
+                                        cell.font = font
+                                    r = 0
+                    except:
+                        pass
 
                     i = -1
-                    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
-                        for cell in row:
-                            if cell.value is not None and  cell.value != 'GA' and cell.value!="" and isinstance(cell.value,str):
-                                i+= 1
-                                if resA[i] == True:
-                                    font = Font(color='0000FF',name='Arial Narrow', size=11, bold=True, italic=True)
-                                    cell.font = font
-                                elif resH[i] == True and resA[i] == True:
-                                    font = Font(color='FF0000',name='Arial Narrow', size=11, bold=True, italic=True)
-                                    cell.font = font
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
+                            for cell in row:
+                                if cell.value is not None and  cell.value != 'GA' and cell.value!="" and isinstance(cell.value,str):
+                                    i+= 1
+                                    if resA[i] == True:
+                                        font = Font(color='0000FF',name='Arial Narrow', size=11, bold=True, italic=True)
+                                        cell.font = font
+                                    elif resH[i] == True and resA[i] == True:
+                                        font = Font(color='FF0000',name='Arial Narrow', size=11, bold=True, italic=True)
+                                        cell.font = font
+                    except:
+                        pass
 
                     def new_task2(home,away):
                         found = False
@@ -1882,7 +1888,7 @@ class SimulationThread(threading.Thread):
                                     resH.append(False)
                                     break
                         
-                        print("away nowwwwwwwwwwwwwwwwwwwwwwwwww")
+                        print("away now")
                         resA = []
                         count = 0
                         for row in (away):
@@ -2610,8 +2616,6 @@ class SimulationThread(threading.Thread):
                                         font = Font(color='4EEA10')  # Red color in hexadecimal notation
                                         cell.font = font
                                     ind += 1
-                                
-
                             except:
                                 pass
 
@@ -2896,18 +2900,8 @@ class SimulationThread(threading.Thread):
                                             cell.font = font
                                             cell.font = Font(color = cell.font.color.rgb,name='Arial Nova', size=11, bold=True, italic=True)
                                             #print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
-                                            
-                                        
-                                    
 
-                                        
-                                        
-                                    bn+=1
-                            
-
-                                    
-                            
-                            
+                                    bn+=1   
                                     if bn > 9:
                                         print('-------------------')
                                         c= 0
@@ -2927,7 +2921,6 @@ class SimulationThread(threading.Thread):
                         else:
                             TTC.append(False)
                     for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=16, max_col=23):
-                        
                         for cell in row:
                             try:
                                 if cell.value != '' and cell.value is not None and cell.value != 'CV Home' and cell.value != 'CV Away' and cell.value !='SD Home' and cell.value !='SD Away' and  cell.value !='Goal Cost Home'and cell.value !='Goal Cost Away'and cell.value !='Prob.home'and cell.value !='Prob.Away' and isinstance(cell.value,str):
