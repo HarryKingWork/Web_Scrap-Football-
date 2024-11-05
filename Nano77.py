@@ -4594,8 +4594,6 @@ def show_entries():
 
     simulation.start()
 
-
-
 # Create the main window
 root = tk.Tk()
 root.title("Configurações")
@@ -4607,6 +4605,7 @@ root.geometry(f"{width}x{height}")
 
 # Add spacing between widgets
 padding_y = 6
+padding_round = 20
 
 # Dropdown para escolher o dia
 days = puxa_datas()
@@ -4642,11 +4641,35 @@ sort_by_league_dropdown = ttk.Combobox(root, textvariable=sort_by_league_var, va
 sort_by_league_dropdown.pack(pady=padding_y)
 
 # Button to show the entries
+#style = ttk.Style()
+#style.configure("White.TEntry", background="white")
+#style.configure("TButton", foreground="Blue", background="#007BFF", font=('Arial', 12, 'bold'))
+#show_entries_button = ttk.Button(root, text="Mostrar Entradas", command=show_entries, style="TButton")
+#show_entries_button.pack(pady=padding_y)
+
+# Button style
 style = ttk.Style()
+style.theme_use('clam')
+
+# Configure a dark button with rounded-like appearance
 style.configure("White.TEntry", background="white")
-style.configure("TButton", foreground="Blue", background="#007BFF", font=('Arial', 12, 'bold'))
-show_entries_button = ttk.Button(root, text="Mostrar Entradas", command=show_entries, style="TButton")
-show_entries_button.pack(pady=padding_y)
+style.configure("TButton",
+                foreground="white",   # White text
+                background="#333333",  # Dark gray background
+                font=('Arial', 12, 'bold'),
+                padding=10,
+                borderwidth=0)         # No border for a flat look
+
+style.map("TButton", 
+          background=[("active", "#555555")],  # Change to lighter gray when hovered
+          relief=[("pressed", "solid")])       # Solid relief when pressed
+
+# Creating a button with the custom style
+show_entries_button = ttk.Button(root, text="Mostrar Entradas", command=show_entries, 
+                                 style="TButton")
+
+# Simulating rounded corners by adding extra padding
+show_entries_button.pack(pady=padding_round)
 
 root.mainloop()
 
