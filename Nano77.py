@@ -9,6 +9,8 @@ import string
 import numpy as np 
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image
+import customtkinter as ctk
 from ttkthemes import ThemedTk
 from tkinter import messagebox
 import logging.config
@@ -144,6 +146,7 @@ class SimulationThread(threading.Thread):
         self.requested_stop = True
 
     def automate(self, id, url, proxy, emails, run_time):
+        #show_loading()
         # try:
         #     username, password = combo.split(":")
         # except:
@@ -4338,7 +4341,7 @@ class SimulationThread(threading.Thread):
             print(e)
             #print(message)
             #print('I will provide updates')
-
+            
     def dummy_automate(self):
         """
         This is a test automation function.
@@ -4366,10 +4369,6 @@ class SimulationThread(threading.Thread):
                 time.sleep(1)
                 if self.requested_stop:
                     sys.exit()
-
-
-
-
 lock = threading.Lock()
 
 class Simulation:
@@ -4480,9 +4479,23 @@ class Simulation:
         new_thread.start()
 
 ########################################################################################################
+#def show_loading():
+#    loading_label.place(relx=0.5, rely=0.5, anchor="center")  # Place the label at the center
+#    animate_loading()
 
+# Function to hide the loading animation
+#def stop_loading():
+#    loading_label.place_forget()  # Remove the loading icon
 
-
+# Function to animate the loading icon (spinner effect)
+#def animate_loading():
+#    current_text = loading_label.cget("text")
+#    new_text = current_text[1:] + current_text[0]  # Rotate the text
+#    loading_label.configure(text=new_text)
+    
+#    if loading_label.winfo_ismapped():  # Keep updating if the label is visible
+#        root.after(200, animate_loading)  # Adjust timing for animation speed
+        
 def extract_day_names(datesdict):
     day_names = [day_tuple[0] for day_tuple in datesdict.values()]
     return day_names
@@ -4579,7 +4592,7 @@ def show_entries():
     l_de_req=[1, 1000, get_link_by_day(chosen_day,puxa_dias_com_links()), proxies_file, url]
     print("l_de_req ->", l_de_req)
 
-
+    #show_loading()
     n_threads, run_time, combo_file, proxies_file, url = l_de_req #  get_input()
     print( "n_threads: "+ str(n_threads),"\n", "run_time: "+str(run_time), "\n", "combo_file: "+str(combo_file),"\n","proxies_file: "+ str(proxies_file),"\n", "url: "+ str(url))
 
@@ -4594,82 +4607,72 @@ def show_entries():
 
     simulation.start()
 
-# Create the main window
-root = tk.Tk()
-root.title("Configurações")
+    #stop_loading()
 
+root = ctk.CTk()
+root.title("Configurações")
 # Set the width and height of the window
-width = 340
-height = 410
+width = 600
+height = 420
 root.geometry(f"{width}x{height}")
 
+bg_image = ctk.CTkImage(dark_image=Image.open("bg4.jpg"), size=(500, 400))
+
+# Create a label to display the image as a background
+bg_label = ctk.CTkLabel(root, image=bg_image, text="")  # `text=""` to hide default text
+bg_label.place(x=0, y=0, relwidth=1, relheight=1)  # Cover entire window
+
 # Add spacing between widgets
-padding_y = 6
+padding_y = 3
 padding_round = 20
 
-# Dropdown para escolher o dia
+# Dropdown to choose the day
 days = puxa_datas()
 print(days)
-# Dropdown to choose the day
-day_label = ttk.Label(root, text="Escolha o dia:")
+
+day_label = ctk.CTkLabel(root, text="Escolha o dia:")
 day_label.pack(pady=padding_y)
-day_dropdown = ttk.Combobox(root, values=days)
+
+# CTkComboBox for the dropdown (replacing ttk.Combobox)
+day_dropdown = ctk.CTkComboBox(root, values=days)
 day_dropdown.pack(pady=padding_y)
 
 # Input to stop at a certain number of games
-stop_games_label = ttk.Label(root, text="Você quer parar em determinado número de jogos?\nSe não quiser, basta deixar em branco:")
+stop_games_label = ctk.CTkLabel(root, text="Você quer parar em determinado número de jogos?\nSe não quiser, basta deixar em branco:")
 stop_games_label.pack(pady=padding_y)
-stop_games_entry = ttk.Entry(root, style="White.TEntry")
+
+# CTkEntry for user input (replacing ttk.Entry)
+stop_games_entry = ctk.CTkEntry(root)
 stop_games_entry.pack(pady=padding_y)
 
 # Inputs for start time and end time
-start_time_label = ttk.Label(root, text="Start time (HH:MM):")
+start_time_label = ctk.CTkLabel(root, text="Start time (HH:MM):")
 start_time_label.pack(pady=padding_y)
-start_time_entry = ttk.Entry(root, style="White.TEntry")
+start_time_entry = ctk.CTkEntry(root)
 start_time_entry.pack(pady=padding_y)
 
-end_time_label = ttk.Label(root, text="End time (HH:MM):")
+end_time_label = ctk.CTkLabel(root, text="End time (HH:MM):")
 end_time_label.pack(pady=padding_y)
-end_time_entry = ttk.Entry(root, style="White.TEntry")
+end_time_entry = ctk.CTkEntry(root)
 end_time_entry.pack(pady=padding_y)
 
 # Dropdown to sort by league
-sort_by_league_label = ttk.Label(root, text="Você quer classificar por liga?")
+sort_by_league_label = ctk.CTkLabel(root, text="Você quer classificar por liga?")
 sort_by_league_label.pack(pady=padding_y)
-sort_by_league_var = tk.StringVar(value="Sim")
-sort_by_league_dropdown = ttk.Combobox(root, textvariable=sort_by_league_var, values=["Sim", "Não"])
+
+# CTkComboBox for sorting by league
+sort_by_league_var = ctk.StringVar(value="Sim")
+sort_by_league_dropdown = ctk.CTkComboBox(root, values=["Sim", "Não"], variable=sort_by_league_var)
 sort_by_league_dropdown.pack(pady=padding_y)
 
-# Button to show the entries
-#style = ttk.Style()
-#style.configure("White.TEntry", background="white")
-#style.configure("TButton", foreground="Blue", background="#007BFF", font=('Arial', 12, 'bold'))
-#show_entries_button = ttk.Button(root, text="Mostrar Entradas", command=show_entries, style="TButton")
-#show_entries_button.pack(pady=padding_y)
-
-# Button style
-style = ttk.Style()
-style.theme_use('clam')
-
-# Configure a dark button with rounded-like appearance
-style.configure("White.TEntry", background="white")
-style.configure("TButton",
-                foreground="white",   # White text
-                background="#333333",  # Dark gray background
-                font=('Arial', 12, 'bold'),
-                padding=10,
-                borderwidth=0)         # No border for a flat look
-
-style.map("TButton", 
-          background=[("active", "#555555")],  # Change to lighter gray when hovered
-          relief=[("pressed", "solid")])       # Solid relief when pressed
-
-# Creating a button with the custom style
-show_entries_button = ttk.Button(root, text="Mostrar Entradas", command=show_entries, 
-                                 style="TButton")
-
-# Simulating rounded corners by adding extra padding
+# Button with CTk format and custom styling
+show_entries_button = ctk.CTkButton(root, text="Mostrar Entradas", command=show_entries, 
+                                    width=200, height=40, corner_radius=8, fg_color="#333333", 
+                                    hover_color="#555555")
 show_entries_button.pack(pady=padding_round)
+
+#loading_label = ctk.CTkLabel(root, text="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏")  # You can replace this with a loading image
+#loading_label.place_forget()
 
 root.mainloop()
 
