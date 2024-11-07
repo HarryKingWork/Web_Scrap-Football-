@@ -5245,18 +5245,40 @@ bg_label.place(x=0, y=0, relwidth=1, relheight=1)  # Cover entire window
 
 # Add spacing between widgets
 padding_y = 20
-padding_round = 20
+padding_round = 40
 
 # Dropdown to choose the day
 days = puxa_datas()
+padx_value = 80
 print(days)
 
-#day_label = ctk.CTkLabel(root, text="Escolha o dia:")
-#day_label.pack(pady=padding_y)
+button_font = ctk.CTkFont(family="Arial", size=24)
 custom_font = ctk.CTkFont(family="Arial", size=20)
-# CTkComboBox for the dropdown (replacing ttk.Combobox)
-day_dropdown = ctk.CTkComboBox(root, values=days, font=custom_font, width=190)
-day_dropdown.pack(pady=(100, padding_y))
+
+# Button with CTk format and custom styling
+show_entries_button = ctk.CTkButton(root, text="Mostrar Entradas", command=show_entries, 
+                                    width=190, height=40, corner_radius=8, fg_color="#FF5733", 
+                                    hover_color="#BBC655", font=custom_font)
+show_entries_button.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=(padding_round,100))
+# Dropdown to sort by league
+#sort_by_league_label = ctk.CTkLabel(root, text="Você quer classificar por liga?")
+#sort_by_league_label.pack(pady=padding_y)
+
+# CTkComboBox for sorting by league
+sort_by_league_var = ctk.StringVar(value="Sim")
+sort_by_league_dropdown = ctk.CTkComboBox(root, values=["Sim", "Não"], variable=sort_by_league_var, font=custom_font, width=190)
+sort_by_league_dropdown.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=padding_y)
+
+#end_time_label = ctk.CTkLabel(root, text="End time (HH:MM):")
+#end_time_label.pack(pady=padding_y)
+end_time_entry = ctk.CTkEntry(root, placeholder_text="End time (HH:MM)", font=custom_font, width=190)
+end_time_entry.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=padding_y)
+
+# Inputs for start time and end time
+#start_time_label = ctk.CTkLabel(root, text="Start time (HH:MM):")
+#start_time_label.pack(pady=padding_y)
+start_time_entry = ctk.CTkEntry(root, placeholder_text="Start time (HH:MM)", font=custom_font, width=190)
+start_time_entry.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=padding_y)
 
 # Input to stop at a certain number of games
 #stop_games_label = ctk.CTkLabel(root, text="Você quer parar em determinado número de jogos?\nSe não quiser, basta deixar em branco:")
@@ -5265,33 +5287,13 @@ day_dropdown.pack(pady=(100, padding_y))
 # CTkEntry for user input (replacing ttk.Entry)
 vcmd = root.register(validate_input)
 stop_games_entry = ctk.CTkEntry(root, placeholder_text="número de jogos", font=custom_font, width=190, validate="key", validatecommand=(vcmd, "%P"))
-stop_games_entry.pack(pady=padding_y)
+stop_games_entry.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=padding_y)
 
-# Inputs for start time and end time
-#start_time_label = ctk.CTkLabel(root, text="Start time (HH:MM):")
-#start_time_label.pack(pady=padding_y)
-start_time_entry = ctk.CTkEntry(root, placeholder_text="Start time (HH:MM)", font=custom_font, width=190)
-start_time_entry.pack(pady=padding_y)
-
-#end_time_label = ctk.CTkLabel(root, text="End time (HH:MM):")
-#end_time_label.pack(pady=padding_y)
-end_time_entry = ctk.CTkEntry(root, placeholder_text="End time (HH:MM)", font=custom_font, width=190)
-end_time_entry.pack(pady=padding_y)
-
-# Dropdown to sort by league
-#sort_by_league_label = ctk.CTkLabel(root, text="Você quer classificar por liga?")
-#sort_by_league_label.pack(pady=padding_y)
-
-# CTkComboBox for sorting by league
-sort_by_league_var = ctk.StringVar(value="Sim")
-sort_by_league_dropdown = ctk.CTkComboBox(root, values=["Sim", "Não"], variable=sort_by_league_var, font=custom_font, width=190)
-sort_by_league_dropdown.pack(pady=padding_y)
-
-# Button with CTk format and custom styling
-show_entries_button = ctk.CTkButton(root, text="Mostrar Entradas", command=show_entries, 
-                                    width=200, height=40, corner_radius=6, fg_color="#FF5733", 
-                                    hover_color="#BBC655", font=custom_font)
-show_entries_button.pack(pady=padding_round)
+#day_label = ctk.CTkLabel(root, text="Escolha o dia:")
+#day_label.pack(pady=padding_y)
+# CTkComboBox for the dropdown (replacing ttk.Combobox)
+day_dropdown = ctk.CTkComboBox(root, values=days, font=custom_font, width=190)
+day_dropdown.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=(100, padding_y))
 
 #loading_label = ctk.CTkLabel(root, text="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏")  # You can replace this with a loading image
 #loading_label.place_forget()
