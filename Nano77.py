@@ -809,6 +809,7 @@ class SimulationThread(threading.Thread):
                 PROV_CIN = False
                 PROV_HOY = False
                 PROV_WHP = False
+                PROV_PAV = False
 
 
                 #print('||||||||||||||||||||||||||||')
@@ -1589,7 +1590,7 @@ class SimulationThread(threading.Thread):
                                 elif i == (len(elem) - 1) and elem[i][1] == '3' and elem[i][3] == '3':
                                     found = True
                                     print("found 3x3")
-                                elif i == (len(elem) - 1) and (int(elem[i][1]) + int(elem[i][3]) > 3):
+                                elif i == (len(elem) - 1) and (elem[i][1] == '4' or elem[i][3] == '5'):
                                     found = True
                             if found:
                                 resH.append(True)
@@ -1610,7 +1611,7 @@ class SimulationThread(threading.Thread):
                                 elif i == (len(elem) - 1) and elem[i][1] == '3' and elem[i][3] == '3':
                                     found = True
                                     print("found 3x3")
-                                elif i == (len(elem) - 1) and (int(elem[i][1]) + int(elem[i][3]) > 3):
+                                elif i == (len(elem) - 1) and (elem[i][1] == '4' or elem[i][3] == '5'):
                                     found = True
                             if found:
                                 resA.append(True)
@@ -1644,7 +1645,7 @@ class SimulationThread(threading.Thread):
                         for elem in home:
                             found = False
                             for i in range(len(elem)):
-                                if i == 4 and (int(elem[i][1]) + int(elem[i][3]) > 4):
+                                if i == 4 and (elem[i][1] == '4' or elem[i][3] == '5'):
                                     found = True
                             if found:
                                 resH.append(True)
@@ -1658,7 +1659,7 @@ class SimulationThread(threading.Thread):
                         for elem in away:
                             found = False
                             for i in range(len(elem)):
-                                if i == 4 and (int(elem[i][1]) + int(elem[i][3]) > 4):
+                                if i == 4 and (elem[i][1] == '4' or elem[i][3] == '5'):
                                     found = True
                             if found:
                                 resA.append(True)
@@ -1691,7 +1692,7 @@ class SimulationThread(threading.Thread):
                         for elem in home:
                             found = False
                             for i in range(len(elem)):
-                                if i == 4 and (int(elem[i][1]) + int(elem[i][3]) > 4):
+                                if i == 4 and (elem[i][1] == '4' or elem[i][3] == '5'):
                                     found = True
                             if found:
                                 resH.append(True)
@@ -1705,7 +1706,7 @@ class SimulationThread(threading.Thread):
                         for elem in away:
                             found = False
                             for i in range(len(elem)):
-                                if i == 4 and (int(elem[i][1]) + int(elem[i][3]) > 4):
+                                if i == 4 and (elem[i][1] == '4' or elem[i][3] == '5'):
                                     found = True
                             if found:
                                 resA.append(True)
@@ -2870,17 +2871,17 @@ class SimulationThread(threading.Thread):
                         pass
 
 
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
-                            for cell in row:
-                                if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
-                                    i += 1
-                                    if (float(AVGH[i]) + float(AVGA[i])) >= 1.79 and (PROV_HDN or PROV_BK or PROV_DBT or PROV_D5TH) and (PROV_3DD):
-                                        font = Font(color='#00B0F0',name='Arial Narrow', size=11)
-                                        cell.font = font  
-                    except:
-                        pass          
+                    #i = -1
+                    #try:
+                    #    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
+                    #        for cell in row:
+                    #            if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
+                    #                i += 1
+                    #                if (float(AVGH[i]) + float(AVGA[i])) >= 1.79 and (PROV_HDN or PROV_BK or PROV_DBT or PROV_D5TH) and (PROV_3DD):
+                    #                    font = Font(color='#00B0F0',name='Arial Narrow', size=11)
+                    #                    cell.font = font  
+                    #except:
+                    #    pass          
 
                     #NN = ...
                     i = -1
@@ -2899,7 +2900,7 @@ class SimulationThread(threading.Thread):
                     #NED = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=20, max_col=20):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=3, max_col=3):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2912,7 +2913,7 @@ class SimulationThread(threading.Thread):
                     #NFD = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=21, max_col=21):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2925,7 +2926,7 @@ class SimulationThread(threading.Thread):
                     #FTF = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=22, max_col=22):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2938,7 +2939,7 @@ class SimulationThread(threading.Thread):
                     #TIG = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=9, max_col=9):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2951,7 +2952,7 @@ class SimulationThread(threading.Thread):
                     #EAG = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=5, max_col=5):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=6, max_col=6):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2964,7 +2965,7 @@ class SimulationThread(threading.Thread):
                     #CCH = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=0, max_col=0):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=2, max_col=2):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2977,7 +2978,7 @@ class SimulationThread(threading.Thread):
                     #CYC = ....
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=4, max_col=4):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=5, max_col=5):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -2991,7 +2992,7 @@ class SimulationThread(threading.Thread):
                     #OWO...
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=9, max_col=9):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=10, max_col=10):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -3004,7 +3005,7 @@ class SimulationThread(threading.Thread):
                     #BFM...
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=10, max_col=10):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=11, max_col=11):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -3017,7 +3018,7 @@ class SimulationThread(threading.Thread):
                     #OHO...
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=3, max_col=3):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=4, max_col=4):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -3030,7 +3031,7 @@ class SimulationThread(threading.Thread):
                     #OAO...
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=15, max_col=15):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=16, max_col=16):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -3041,21 +3042,21 @@ class SimulationThread(threading.Thread):
                         pass  
 
                     #VNM...
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
-                            for cell in row:
-                                if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
-                                    i += 1
-                                    if (PROV_3DD or PROV_F09) or (PROV_NN or PROV_NED or (float(GVA[i]) + float(GVH[i]) >= 1.83)) or (PROV_TIG or PROV_D3RD or PROV_D5TH) and (PROV_LN7 or PROV_3NR):
-                                         cell.fill = PatternFill(start_color="00B0F0", end_color="00B0F0", fill_type="solid")
-                    except:
-                        pass  
+                    #i = -1
+                    #try:
+                    #    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=7, max_col=7):
+                    #        for cell in row:
+                    #            if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
+                    #                i += 1
+                    #                if (PROV_3DD or PROV_F09) or (PROV_NN or PROV_NED or (float(GVA[i]) + float(GVH[i]) >= 1.83)) or (PROV_TIG or PROV_D3RD or PROV_D5TH) and (PROV_LN7 or PROV_3NR):
+                    #                     cell.fill = PatternFill(start_color="00B0F0", end_color="00B0F0", fill_type="solid")
+                    #except:
+                    #    pass  
 
                     #HHY...
                     i = -1
                     try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=11, max_col=11):
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
                             for cell in row:
                                 if cell.value is not None and  cell.value !='' and isinstance(cell.value,str) :
                                     i += 1
@@ -3676,8 +3677,10 @@ class SimulationThread(threading.Thread):
                                     if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
                                         cell.fill = PatternFill(start_color="FF00FF", end_color="FF00FF", fill_type="solid")  
                                         SCA_Check = True
+                                        PROV_PAV = True
                     except:
                         pass                   
+
                     i = -1
                     try:
                         for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
@@ -3690,172 +3693,10 @@ class SimulationThread(threading.Thread):
                                     if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
                                         cell.fill = PatternFill(start_color="FF00FF", end_color="FF00FF", fill_type="solid")  
                                         SCA_Check = True
+                                        PROV_PAV = True
                     except:
                         pass
-
-
-                    ################################################################## HOY #############################################################
-                    print('################################## HOY #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value A" and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) *1.12)
-                                    if val[val.index('.')+1:val.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="FF00FF", end_color="FF00FF", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_HOY = True
-                    except:
-                        pass                   
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value H" and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCA[i]) *1.12)
-                                    if val[val.index('.')+1:val.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="A6A6A6", end_color="A6A6A6", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_HOY = True
-                    except:
-                        pass
-                    ################################################################## CEO #############################################################
-                    print('################################## CEO #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) *2.80)
-                                    #val2 = str(float(GCH[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="FF0066", end_color="FF0066", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_CEO = True
-                    except:
-                        pass                
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCA[i]) *2.80)
-                                    #val2 = str(float(GCA[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="FF0066", end_color="FF0066", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_CEO = True
-                    except:
-                        pass
-                    ################################################################## AAO #############################################################
-                    print('################################## AOO #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(HGD[i]) *2.80)
-                                    #val2 = str(float(GCH[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == GCH[i][GCH[i].index('.')+1:GCH[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="5B114D", end_color="5B114D", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_AAO = True
-                    except:
-                        pass                
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(AGD[i]) *2.80)
-                                    #val2 = str(float(GCA[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == GCA[i][GCA[i].index('.')+1:GCA[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="5B114D", end_color="5B114D", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_AAO = True
-                    except:
-                        pass
-                     ################################################################## COO #############################################################
-                    print('################################## COO #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) *2.88)
-                                    #val2 = str(float(GCH[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="7DFF7D", end_color="7DFF7D", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_COO = True
-                    except:
-                        pass
-                                    
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCA[i]) *2.88)
-                                    #val2 = str(float(GCA[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="7DFF7D", end_color="7DFF7D", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_COO = True
-                    except:
-                        pass 
-
-                     ################################################################## THU #############################################################
-                    print('################################## THU #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) *3)
-                                    #val2 = str(float(GCH[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="00FFFF", end_color="00FFFF", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_THU = True
-                    except:
-                        pass 
-
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCA[i]) *3)
-                                    #val2 = str(float(GCA[i]) *0.96)
-                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
-                                        cell.fill = PatternFill(start_color="00FFFF", end_color="00FFFF", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_THU = True
-                    except:
-                        pass     
-
+                        
                     ################################################################## HQO #############################################################
                     print('################################## HQO #########################')
                     i = -1
@@ -3889,54 +3730,21 @@ class SimulationThread(threading.Thread):
                                         PROV_HQO = True
                     except:
                         pass 
-
-                    ################################################################## CIN #############################################################
-                    print('################################## CIN #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value A" and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) *1.04)
-                                    val2 = str(float(GCH[i]) *0.96)
-                                    if  val2[val2.index('.')+1:val2.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3]:
-                                        cell.fill = PatternFill(start_color="FF99CC", end_color="FF99CC", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_CIN = True
-                    except:
-                        pass 
-
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value H" and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCA[i]) *1.04)
-                                    val2 = str(float(GCA[i]) *0.96)
-                                    if  val2[val2.index('.')+1:val2.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3]:
-                                        cell.fill = PatternFill(start_color="FF99CC", end_color="FF99CC", fill_type="solid")  
-                                        SCA_Check = True
-                                        PROV_CIN = True
-                    except:
-                        pass 
-
+                        
+                    
                     ################################################################## CIS #############################################################
                     print('################################## CIS #########################')
                     i = -1
                     try:
                         for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
                             for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "" and isinstance(cell.value,str):
+                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
                                     i += 1
                                     
-                                    val = round(float(GCH[i]) *2.4, 2)
-                                    val2 = round(float(GCH[i]) *2.51, 2)
+                                    val = str(float(GCH[i]) *2.4)
+                                    val2 = str(float(GCH[i]) *2.51)
 
-                                    if  round(float(HGD[i])) >= val and round(float(HGD[i])) <= val2:
+                                    if  val[val.index('.')+1:val.index('.')+3] <= HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] <= val2[val2.index('.')+1:val2.index('.')+3]:
                                         cell.fill = PatternFill(start_color="404040", end_color="404040", fill_type="solid")  
                                         SCA_Check = True
                                         PROV_CIS = True
@@ -3947,33 +3755,34 @@ class SimulationThread(threading.Thread):
                     try:
                         for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
                             for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "" and isinstance(cell.value,str):
+                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
                                     i += 1
                                     
-                                    val = round(float(GCA[i]) *2.4, 2)
-                                    val2 = round(float(GCA[i]) *2.51, 2)
+                                    val = str(float(GCA[i]) *2.4)
+                                    val2 = str(float(GCA[i]) *2.51)
 
-                                    if  val <= round(float(AGD[i])) <= val2:
+                                    if  val[val.index('.')+1:val.index('.')+3] <= AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] <= val2[val2.index('.')+1:val2.index('.')+3]:
                                         cell.fill = PatternFill(start_color="404040", end_color="404040", fill_type="solid")  
                                         SCA_Check = True
                                         PROV_CIS = True
                     except:
                         pass 
+
                     ################################################################## ASY #############################################################
                     print('################################## ASY #########################')
                     i = -1
                     try:
                         for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
                             for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "HGD" and cell.value != "" and isinstance(cell.value,str):
+                                if cell.value != '' and cell.value is not None and cell.value != "GCH" and cell.value != "" and isinstance(cell.value,str):
                                     i += 1
                                     
-                                    val = round(float(HGD[i]) *2.4, 2)
-                                    val2 = round(float(HGD[i]) *2.51, 2)
+                                    val = str(float(GCH[i]) *2.4)
+                                    val2 = str(float(GCH[i]) *2.51)
 
-                                    if  val <= round(float(GCH[i])) <= val2:
+                                    if  val[val.index('.')+1:val.index('.')+3] <= AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] <= val2[val2.index('.')+1:val2.index('.')+3]:
                                         cell.fill = PatternFill(start_color="FFFF99", end_color="FFFF99", fill_type="solid")  
-                                        SCA_Check = True
+                                        #SCA_Check = True
                                         PROV_ASY = True
                     except:
                         pass 
@@ -3982,20 +3791,186 @@ class SimulationThread(threading.Thread):
                     try:
                         for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
                             for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "AGD" and cell.value != "" and isinstance(cell.value,str):
+                                if cell.value != '' and cell.value is not None and cell.value != "GCA" and cell.value != "" and isinstance(cell.value,str):
                                     i += 1
                                     
-                                    val = round(float(AGD[i]) *2.4, 2)
-                                    val2 = round(float(AGD[i]) *2.51, 2)
+                                    val = str(float(GCA[i]) *2.4)
+                                    val2 = str(float(GCA[i]) *2.51)
 
-                                    if  val <= round(float(GCA[i])) <= val2:
+                                    if  val[val.index('.')+1:val.index('.')+3] <= GCA[i][GCA[i].index('.')+1:GCA[i].index('.')+3] <= val2[val2.index('.')+1:val2.index('.')+3]:
                                         cell.fill = PatternFill(start_color="FFFF99", end_color="FFFF99", fill_type="solid")  
-                                        SCA_Check = True
+                                        #SCA_Check = True
                                         PROV_ASY = True
                     except:
                         pass 
 
-                    ################################################################## HSS #############################################################
+                    ################################################################## CEO #############################################################
+                    print('################################## CEO #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCH[i]) *2.80)
+                                    #val2 = str(float(GCH[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="FF0066", end_color="FF0066", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_CEO = True
+                    except:
+                        pass                
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCA[i]) *2.80)
+                                    #val2 = str(float(GCA[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="FF0066", end_color="FF0066", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_CEO = True
+                    except:
+                        pass
+
+                    ################################################################## AAO #############################################################
+                    print('################################## AAO #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'GCH' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(HGD[i]) *2.80)
+                                    #val2 = str(float(HGD[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == GCH[i][GCH[i].index('.')+1:GCH[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="5B114D", end_color="5B114D", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_AAO = True
+                    except:
+                        pass                
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'GCA' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(AGD[i]) *2.80)
+                                    #val2 = str(float(AGD[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == GCA[i][GCA[i].index('.')+1:GCA[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="5B114D", end_color="5B114D", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_AAO = True
+                    except:
+                        pass
+
+                    ################################################################## COO #############################################################
+                    print('################################## COO #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCH[i]) *2.88)
+                                    #val2 = str(float(GCH[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="7DFF7D", end_color="7DFF7D", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_COO = True
+                    except:
+                        pass
+                                    
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCA[i]) *2.88)
+                                    #val2 = str(float(GCA[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="7DFF7D", end_color="7DFF7D", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_COO = True
+                    except:
+                        pass 
+                        
+                    ################################################################## THU #############################################################
+                    print('################################## THU #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCH[i]) *3)
+                                    #val2 = str(float(GCH[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="00FFFF", end_color="00FFFF", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_THU = True
+                    except:
+                        pass 
+
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCA[i]) *3)
+                                    #val2 = str(float(GCA[i]) *0.96)
+                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="00FFFF", end_color="00FFFF", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_THU = True
+                    except:
+                        pass     
+
+                    ################################################################## CIN #############################################################
+                    print('################################## CIN #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value A" and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val2 = str(float(GCH[i]) *0.96)
+                                    if  val2[val2.index('.')+1:val2.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3]:
+                                        cell.fill = PatternFill(start_color="FF99CC", end_color="FF99CC", fill_type="solid")  
+                                        #SCA_Check = True
+                                        PROV_CIN = True
+                    except:
+                        pass 
+
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=15, max_col=15):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value H" and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val2 = str(float(GCA[i]) *0.96)
+                                    if  val2[val2.index('.')+1:val2.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3]:
+                                        cell.fill = PatternFill(start_color="FF99CC", end_color="FF99CC", fill_type="solid")  
+                                        #SCA_Check = True
+                                        PROV_CIN = True
+                    except:
+                        pass 
+
+                     ################################################################## HSS #############################################################
                     print('################################## HSS #########################')
                     i = -1
                     try:
@@ -4023,11 +3998,79 @@ class SimulationThread(threading.Thread):
                                     val2 = str(float(GCA[i]) *0.96)
                                     if val[val.index('.')+1:val.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3]:# or val2[val2.index('.')+1:val2.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3]:
                                         cell.fill = PatternFill(start_color="CC99FF", end_color="CC99FF", fill_type="solid")  
-                                        SCA_Check = True
+                                        #SCA_Check = True
                                         PROV_HSS = True
                     except:
                         pass 
+
+                    ################################################################## HOY #############################################################
+                    print('################################## HOY #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value A" and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCH[i]) *1.12)
+                                    if val[val.index('.')+1:val.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="A6A6A6", end_color="A6A6A6", fill_type="solid")  
+                                        #SCA_Check = True
+                                        PROV_HOY = True
+                    except:
+                        pass            
+
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=15, max_col=15):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value H" and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCA[i]) *1.12)
+                                    if val[val.index('.')+1:val.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3] :
+                                        cell.fill = PatternFill(start_color="A6A6A6", end_color="A6A6A6", fill_type="solid")  
+                                        SCA_Check = True
+                                        PROV_HOY = True
+                    except:
+                        pass
                     
+                    ################################################################## WHP #############################################################
+                    print('################################## WHP #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value A" and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCH[i]) * 0.88)
+                                    
+                                    if val[val.index('.')+1:val.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3]:
+                                        cell.fill = PatternFill(start_color="FABF8F", end_color="FABF8F", fill_type="solid")
+                                        #print('HSY H true')  
+                                        SCA_Check = True
+                                        PROV_WHP = True
+                    except:
+                        pass                 
+
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=15, max_col=15):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value H" and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str(float(GCA[i]) * 0.88)
+                                    
+                                    if val[val.index('.')+1:val.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3]:
+                                        cell.fill = PatternFill(start_color="FABF8F", end_color="FABF8F", fill_type="solid")
+                                        #print('HSY A True')
+                                        #SCA_Check = True
+                                        PROV_WHP = True
+                    except:
+                        pass 
+
                     ################################################################## VLN #############################################################
                     print('################################## VLN #########################')
                     i = -1
@@ -4112,6 +4155,42 @@ class SimulationThread(threading.Thread):
                                             #print('HOC A True')
                                             #SCA_Check = True
                                             PROV_HOC = True
+                    except:
+                        pass 
+
+                    ################################################################## HSY #############################################################
+                    print('################################## HSY #########################')
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str((float(GCH[i]) *2 )*0.96)
+                                    
+                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3]:
+                                        cell.fill = PatternFill(start_color="588AEE", end_color="588AEE", fill_type="solid")
+                                        #print('HSY H true')  
+                                        #SCA_Check = True
+                                        PROV_HSY = True
+                    except:
+                        pass                 
+
+                    i = -1
+                    try:
+                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
+                            for cell in row:
+                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
+                                    i += 1
+                                    
+                                    val = str((float(GCA[i]) *2 )*0.94)
+                                    
+                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3]:
+                                        cell.fill = PatternFill(start_color="588AEE", end_color="588AEE", fill_type="solid")
+                                        #print('HSY A True')
+                                        #SCA_Check = True
+                                        PROV_HSY = True
                     except:
                         pass 
 
@@ -4245,78 +4324,7 @@ class SimulationThread(threading.Thread):
                                             PROV_BNG = True
                     except:
                         pass 
-
-
-                    ################################################################## HSY #############################################################
-                    print('################################## HSY #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=12, max_col=12):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'HGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str((float(GCH[i]) *2 )*0.96)
-                                    
-                                    if val[val.index('.')+1:val.index('.')+3] == HGD[i][HGD[i].index('.')+1:HGD[i].index('.')+3]:
-                                        cell.fill = PatternFill(start_color="588AEE", end_color="588AEE", fill_type="solid")
-                                        #print('HSY H true')  
-                                        #SCA_Check = True
-                                        PROV_HSY = True
-                    except:
-                        pass                 
-
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str((float(GCA[i]) *2 )*0.94)
-                                    
-                                    if val[val.index('.')+1:val.index('.')+3] == AGD[i][AGD[i].index('.')+1:AGD[i].index('.')+3]:
-                                        cell.fill = PatternFill(start_color="588AEE", end_color="588AEE", fill_type="solid")
-                                        #print('HSY A True')
-                                        #SCA_Check = True
-                                        PROV_HSY = True
-                    except:
-                        pass 
-                    ################################################################## WHP #############################################################
-                    print('################################## WHP #########################')
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=13, max_col=13):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value A" and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) * 0.88)
-                                    
-                                    if val[val.index('.')+1:val.index('.')+3] == GVA[i][GVA[i].index('.')+1:GVA[i].index('.')+3]:
-                                        cell.fill = PatternFill(start_color="FABF8F", end_color="FABF8F", fill_type="solid")
-                                        #print('HSY H true')  
-                                        #SCA_Check = True
-                                        PROV_WHP = True
-                    except:
-                        pass                 
-
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != "Goal Value H" and cell.value != 'AGD' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    
-                                    val = str(float(GCH[i]) * 0.88)
-                                    
-                                    if val[val.index('.')+1:val.index('.')+3] == GVH[i][GVH[i].index('.')+1:GVH[i].index('.')+3]:
-                                        cell.fill = PatternFill(start_color="FABF8F", end_color="FABF8F", fill_type="solid")
-                                        #print('HSY A True')
-                                        #SCA_Check = True
-                                        PROV_WHP = True
-                    except:
-                        pass 
+                
                     ################################################################## GD's-Z #############################################################
                     print('################################## GDs -Z #########################')
                     i = -1
@@ -4398,40 +4406,40 @@ class SimulationThread(threading.Thread):
                     ################################################################## RV #############################################################
 
                     i = -1
-                    print('################################## RV #########################')
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=15, max_col=15):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'Goal Value H' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    check = [0,1.0,-1.0]
-                                    if float(AGD[i]) - float(HGD[i]) not in check or float(HGD[i]) - float(AGD[i]) not in check :
-                                        val = str(float(HGD[i]))
-                                        #print(GVA[i][GVA[i].index('.')+1:])
-                                        #print(val[val.index('.')+3:val.index('.')+10])
-                                        
-                                        
-                                        if val[val.index('.')+3:val.index('.')+10]  in GVA[i][GVA[i].index('.')+3:]:
-                                            cell.fill = PatternFill(start_color="33CCCC", end_color="33CCCC", fill_type="solid") 
-                                            SCA_Check = True 
-                    except:
-                        pass 
+                    #print('################################## RV #########################')
+                    #try:
+                    #    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=15, max_col=15):
+                    #        for cell in row:
+                    #            if cell.value != '' and cell.value is not None and cell.value != 'Goal Value H' and cell.value != "" and isinstance(cell.value,str):
+                    #                i += 1
+                    #                check = [0,1.0,-1.0]
+                    #                if float(AGD[i]) - float(HGD[i]) not in check or float(HGD[i]) - float(AGD[i]) not in check :
+                    #                    val = str(float(HGD[i]))
+                    #                    #print(GVA[i][GVA[i].index('.')+1:])
+                    #                    #print(val[val.index('.')+3:val.index('.')+10])
+                    #                    
+                    #                    
+                    #                    if val[val.index('.')+3:val.index('.')+10]  in GVA[i][GVA[i].index('.')+3:]:
+                    #                        cell.fill = PatternFill(start_color="33CCCC", end_color="33CCCC", fill_type="solid") 
+                    #                        SCA_Check = True 
+                    #except:
+                    #    pass 
 
-                    i = -1
-                    try:
-                        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
-                            for cell in row:
-                                if cell.value != '' and cell.value is not None and cell.value != 'Goal Value A' and cell.value != "" and isinstance(cell.value,str):
-                                    i += 1
-                                    check = [0,1.0,-1.0]
-                                    if float(AGD[i]) - float(HGD[i]) not in check or float(HGD[i]) - float(AGD[i]) not in check :
-                                        val = str(float(AGD[i]))
-                                        
-                                        if val[val.index('.')+3:val.index('.')+10]  in GVH[i][GVH[i].index('.')+3:]:
-                                            cell.fill = PatternFill(start_color="33CCCC", end_color="33CCCC", fill_type="solid") 
-                                            SCA_Check = True
-                    except:
-                        pass 
+                    #i = -1
+                    #try:
+                    #    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=14, max_col=14):
+                    #        for cell in row:
+                    #            if cell.value != '' and cell.value is not None and cell.value != 'Goal Value A' and cell.value != "" and isinstance(cell.value,str):
+                    #               i += 1
+                    #                check = [0,1.0,-1.0]
+                    #                if float(AGD[i]) - float(HGD[i]) not in check or float(HGD[i]) - float(AGD[i]) not in check :
+                    #                    val = str(float(AGD[i]))
+                    #                    
+                    #                    if val[val.index('.')+3:val.index('.')+10]  in GVH[i][GVH[i].index('.')+3:]:
+                    #                        cell.fill = PatternFill(start_color="33CCCC", end_color="33CCCC", fill_type="solid") 
+                    #                        SCA_Check = True
+                    #except:
+                    #    pass 
 
 
                     ################################################################## AH #############################################################
