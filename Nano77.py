@@ -198,7 +198,7 @@ class SimulationThread(threading.Thread):
             data = {'Time':'', 'Date': '', 'League':'', 'Home vs Guest':'','Goal Value A':'','Goal Value H':'','Goal Cost Home':'','Goal Cost Away':'', 'Score(Finished)':'', 'Over':'', 'STAKE POOL': '', 'Early':'', 'SUM':'','Live':''}
             for team_score_index in range(1, max_goals):
                 data[f'goal{team_score_index}'] = ''
-            print(len(games))
+            print(f"\033[93m{len(games)}\033[0m")
             # Click on an element to open a new tab
             original_window_handle = driver.current_window_handle
             for game in games:
@@ -4298,13 +4298,13 @@ days = puxa_datas()
 padx_value = 80
 print(days)
 
-button_font = ctk.CTkFont(family="Arial", size=24)
+button_font = ctk.CTkFont(family="Helvetica", size=24)
 custom_font = ctk.CTkFont(family="Arial", size=20)
 
 # Button with CTk format and custom styling
 show_entries_button = ctk.CTkButton(root, text="Mostrar Entradas", command=show_entries, 
-                                    width=190, height=40, corner_radius=8, fg_color="#FF5733", 
-                                    hover_color="#BBC655", font=custom_font)
+                                    width=190, height=40, corner_radius=5, fg_color="#FF5733", 
+                                    hover_color="#BB5755", font=button_font)
 show_entries_button.pack(side="bottom", anchor="se", padx=(0, padx_value), pady=(padding_round,100))
 
 # CTkComboBox for sorting by league
